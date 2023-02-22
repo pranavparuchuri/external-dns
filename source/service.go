@@ -63,10 +63,11 @@ type serviceSource struct {
 	nodeInformer                   coreinformers.NodeInformer
 	serviceTypeFilter              map[string]struct{}
 	labelSelector                  labels.Selector
+	nodeSelector                   labels.Selector
 }
 
 // NewServiceSource creates a new serviceSource with the given config.
-func NewServiceSource(ctx context.Context, kubeClient kubernetes.Interface, namespace, annotationFilter string, fqdnTemplate string, combineFqdnAnnotation bool, compatibility string, publishInternal bool, publishHostIP bool, alwaysPublishNotReadyAddresses bool, serviceTypeFilter []string, ignoreHostnameAnnotation bool, labelSelector labels.Selector) (Source, error) {
+func NewServiceSource(ctx context.Context, kubeClient kubernetes.Interface, namespace, annotationFilter string, fqdnTemplate string, combineFqdnAnnotation bool, compatibility string, publishInternal bool, publishHostIP bool, alwaysPublishNotReadyAddresses bool, serviceTypeFilter []string, ignoreHostnameAnnotation bool, labelSelector labels.Selector, nodeSelector labels.Selector) (Source, error) {
 	tmpl, err := parseTemplate(fqdnTemplate)
 	if err != nil {
 		return nil, err
@@ -137,6 +138,7 @@ func NewServiceSource(ctx context.Context, kubeClient kubernetes.Interface, name
 		nodeInformer:                   nodeInformer,
 		serviceTypeFilter:              serviceTypes,
 		labelSelector:                  labelSelector,
+		nodeSelector:                   nodeSelector,
 	}, nil
 }
 
@@ -594,7 +596,7 @@ func (sc *serviceSource) extractNodePortTargets(svc *v1.Service) (endpoint.Targe
 			}
 		}
 	default:
-		nodes, err = sc.nodeInformer.Lister().List(labels.Everything())
+		nodes, err = sc.nodeInformer.Lister().List(sc.nodeSelector)
 		if err != nil {
 			return nil, err
 		}

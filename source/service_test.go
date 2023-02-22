@@ -78,6 +78,7 @@ func (suite *ServiceSuite) SetupTest() {
 		[]string{},
 		false,
 		labels.Everything(),
+		labels.Everything(),
 	)
 	suite.NoError(err, "should initialize service source")
 }
@@ -157,6 +158,7 @@ func testServiceSourceNewServiceSource(t *testing.T) {
 				false,
 				ti.serviceTypesFilter,
 				false,
+				labels.Everything(),
 				labels.Everything(),
 			)
 
@@ -1055,6 +1057,7 @@ func testServiceSourceEndpoints(t *testing.T) {
 				tc.serviceTypesFilter,
 				tc.ignoreHostnameAnnotation,
 				sourceLabel,
+				labels.Everything(),
 			)
 
 			require.NoError(t, err)
@@ -1244,6 +1247,7 @@ func testMultipleServicesEndpoints(t *testing.T) {
 				tc.serviceTypesFilter,
 				tc.ignoreHostnameAnnotation,
 				labels.Everything(),
+				labels.Everything(),
 			)
 			require.NoError(t, err)
 
@@ -1409,6 +1413,7 @@ func TestClusterIpServices(t *testing.T) {
 				[]string{},
 				tc.ignoreHostnameAnnotation,
 				labelSelector,
+				labels.Everything(),
 			)
 			require.NoError(t, err)
 
@@ -1979,6 +1984,7 @@ func TestServiceSourceNodePortServices(t *testing.T) {
 				[]string{},
 				tc.ignoreHostnameAnnotation,
 				labels.Everything(),
+				labels.Everything(),
 			)
 			require.NoError(t, err)
 
@@ -2452,6 +2458,7 @@ func TestHeadlessServices(t *testing.T) {
 				[]string{},
 				tc.ignoreHostnameAnnotation,
 				labels.Everything(),
+				labels.Everything(),
 			)
 			require.NoError(t, err)
 
@@ -2809,6 +2816,7 @@ func TestHeadlessServicesHostIP(t *testing.T) {
 				[]string{},
 				tc.ignoreHostnameAnnotation,
 				labels.Everything(),
+				labels.Everything(),
 			)
 			require.NoError(t, err)
 
@@ -2921,6 +2929,7 @@ func TestExternalServices(t *testing.T) {
 				[]string{},
 				tc.ignoreHostnameAnnotation,
 				labels.Everything(),
+				labels.Everything(),
 			)
 			require.NoError(t, err)
 
@@ -2974,6 +2983,7 @@ func BenchmarkServiceEndpoints(b *testing.B) {
 		false,
 		[]string{},
 		false,
+		labels.Everything(),
 		labels.Everything(),
 	)
 	require.NoError(b, err)

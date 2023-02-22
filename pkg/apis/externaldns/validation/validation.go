@@ -116,5 +116,10 @@ func ValidateConfig(cfg *externaldns.Config) error {
 	if err != nil {
 		return errors.New("--label-filter does not specify a valid label selector")
 	}
+	_, err = labels.Parse(cfg.NodeFilter)
+	if err != nil {
+		return errors.New("--node-filter does not specify a valid label selector")
+	}
+
 	return nil
 }

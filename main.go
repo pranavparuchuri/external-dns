@@ -107,12 +107,13 @@ func main() {
 
 	// error is explicitly ignored because the filter is already validated in validation.ValidateConfig
 	labelSelector, _ := labels.Parse(cfg.LabelFilter)
-
+	nodeFilter, _ := labels.Parse(cfg.NodeFilter)
 	// Create a source.Config from the flags passed by the user.
 	sourceCfg := &source.Config{
 		Namespace:                      cfg.Namespace,
 		AnnotationFilter:               cfg.AnnotationFilter,
 		LabelFilter:                    labelSelector,
+		NodeFilter:                     nodeFilter,
 		FQDNTemplate:                   cfg.FQDNTemplate,
 		CombineFQDNAndAnnotation:       cfg.CombineFQDNAndAnnotation,
 		IgnoreHostnameAnnotation:       cfg.IgnoreHostnameAnnotation,
